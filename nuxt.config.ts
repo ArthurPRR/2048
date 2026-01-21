@@ -1,3 +1,5 @@
+import { defineNuxtConfig } from 'nuxt/config'
+
 export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
   devtools: { enabled: true },
@@ -7,17 +9,6 @@ export default defineNuxtConfig({
     strict: true,
     typeCheck: true,
   },
-
-  tailwindcss: {
-    exposeConfig: true,
-    viewer: true,
-  },
-
-  pinia: {
-    storesDirs: ['./stores/**'],
-  },
-
-  srcDir: './',
 
   // Auto-import components
   components: true,
