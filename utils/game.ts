@@ -10,7 +10,7 @@ export function generateTileId(): string {
 /**
  * Initialiser une board vide
  */
-export function initBoard(gridSize: number = 4): (Tile | null)[][] {
+export function initBoard(gridSize: number = 4): Tile[][] {
   return Array(gridSize)
     .fill(null)
     .map(() => Array(gridSize).fill(null))
@@ -19,7 +19,7 @@ export function initBoard(gridSize: number = 4): (Tile | null)[][] {
 /**
  * Obtenir les positions vides sur la board
  */
-export function getEmptyPositions(board: (Tile | null)[][]): Array<[number, number]> {
+export function getEmptyPositions(board: Tile[][]): Array<[number, number]> {
   const empty: Array<[number, number]> = []
   for (let row = 0; row < board.length; row++) {
     for (let col = 0; col < board[row].length; col++) {
@@ -34,14 +34,14 @@ export function getEmptyPositions(board: (Tile | null)[][]): Array<[number, numb
 /**
  * Compter le nombre de tuiles non-vides
  */
-export function countNonEmptyTiles(board: (Tile | null)[][]): number {
+export function countNonEmptyTiles(board: Tile[][]): number {
   return board.flat().filter(t => t !== null).length
 }
 
 /**
  * Ajouter une nouvelle tuile (2 ou 4) à une position aléatoire vide
  */
-export function spawnTile(board: (Tile | null)[][]): (Tile | null)[][] {
+export function spawnTile(board: Tile[][]): Tile[][] {
   const empty = getEmptyPositions(board)
   if (empty.length === 0) return board
 
@@ -59,7 +59,7 @@ export function spawnTile(board: (Tile | null)[][]): (Tile | null)[][] {
 /**
  * Ajouter deux tuiles au début (initialization)
  */
-export function initializeGameBoard(gridSize: number = 4): (Tile | null)[][] {
+export function initializeGameBoard(gridSize: number = 4): Tile[][] {
   let board = initBoard(gridSize)
   board = spawnTile(board)
   board = spawnTile(board)
@@ -178,7 +178,7 @@ export function move(board: (Tile | null)[][], direction: Direction): MoveResult
 /**
  * Vérifier s'il y a une tuile avec la valeur 2048 (victoire)
  */
-export function checkWin(board: (Tile | null)[][]): boolean {
+export function checkWin(board: Tile[][]): boolean {
   for (let row = 0; row < board.length; row++) {
     for (let col = 0; col < board[row].length; col++) {
       if (board[row][col] && board[row][col]!.value === 2048) {
@@ -192,7 +192,7 @@ export function checkWin(board: (Tile | null)[][]): boolean {
 /**
  * Vérifier s'il y a encore des mouvements possibles
  */
-export function canMove(board: (Tile | null)[][]): boolean {
+export function canMove(board: Tile[][]): boolean {
   // Y a-t-il une position vide ?
   if (getEmptyPositions(board).length > 0) {
     return true
@@ -221,21 +221,21 @@ export function canMove(board: (Tile | null)[][]): boolean {
 /**
  * Vérifier si le jeu est terminé
  */
-export function isGameOver(board: (Tile | null)[][]): boolean {
+export function isGameOver(board: Tile[][]): boolean {
   return !canMove(board)
 }
 
 /**
  * Cloner la board
  */
-export function cloneBoard(board: (Tile | null)[][]): (Tile | null)[][] {
+export function cloneBoard(board: Tile[][]): Tile[][] {
   return JSON.parse(JSON.stringify(board))
 }
 
 /**
  * Vérifier si deux boards sont identiques
  */
-export function boardsEqual(board1: (Tile | null)[][], board2: (Tile | null)[][]): boolean {
+export function boardsEqual(board1: Tile[][], board2: Tile[][]): boolean {
   for (let row = 0; row < board1.length; row++) {
     for (let col = 0; col < board1[row].length; col++) {
       const t1 = board1[row][col]
@@ -256,10 +256,10 @@ export function boardsEqual(board1: (Tile | null)[][], board2: (Tile | null)[][]
  * Effectuer un mouvement complet : move -> spawn -> check
  */
 export function playMove(
-  board: (Tile | null)[][],
+  board: Tile[][],
   direction: Direction
 ): {
-  board: (Tile | null)[][]
+  board: Tile[][]
   scoreGain: number
   moved: boolean
   gameOver: boolean

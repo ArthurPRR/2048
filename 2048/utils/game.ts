@@ -121,20 +121,26 @@ export function move(board: (Tile | null)[][], direction: Direction): MoveResult
 
   if (direction === 'left' || direction === 'right') {
     for (let row = 0; row < newBoard.length; row++) {
-      const line = newBoard[row]
+      let line = [...newBoard[row]]
+      const originalLine = JSON.stringify(line)
+
+      if (direction === 'right') {
+        line.reverse()
+      }
+
       let compressed = compress(line)
       let [merged, score] = merge(compressed)
       merged = compress(merged)
-      newBoard[row] = merged
 
-      scoreGain += score
-      if (JSON.stringify(line) !== JSON.stringify(merged)) {
-        moved = true
+      if (direction === 'right') {
+        merged.reverse()
       }
-    }
-    if (direction === 'right') {
-      for (let row = 0; row < newBoard.length; row++) {
-        newBoard[row] = newBoard[row].reverse()
+
+      newBoard[row] = merged
+      scoreGain += score
+
+      if (originalLine !== JSON.stringify(merged)) {
+        moved = true
       }
     }
   } else {
