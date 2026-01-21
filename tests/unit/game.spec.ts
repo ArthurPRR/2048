@@ -265,7 +265,7 @@ describe('Game Core Logic', () => {
         null,
         { id: '2', value: 4 },
         null,
-      ]
+      ] as (Tile | null)[]
       const result = move(board, 'left')
       expect(result.moved).toBe(true)
       expect(result.board[0][0]?.value).toBe(2)
@@ -279,7 +279,7 @@ describe('Game Core Logic', () => {
         null,
         { id: '2', value: 4 },
         null,
-      ]
+      ] as (Tile | null)[]
       const result = move(board, 'right')
       expect(result.moved).toBe(true)
       expect(result.board[0][1]?.value).toBe(2)
@@ -329,7 +329,7 @@ describe('Game Core Logic', () => {
         { id: '2', value: 2 },
         null,
         null,
-      ]
+      ] as (Tile | null)[]
       const result = move(board, 'left')
       expect(result.scoreGain).toBe(4)
     })
@@ -450,7 +450,7 @@ describe('Game Core Logic', () => {
   })
 
   describe('playMove', () => {
-    let board: Tile[][]
+    let board: (Tile | null)[][]
 
     beforeEach(() => {
       board = initBoard(4)

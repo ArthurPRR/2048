@@ -6,7 +6,7 @@ export interface Tile {
 }
 
 export interface BoardState {
-  tiles: Tile[][]
+  tiles: (Tile | null)[][]
   score: number
   bestScore: number
   isGameOver: boolean
@@ -15,7 +15,7 @@ export interface BoardState {
 }
 
 export interface MoveResult {
-  board: Tile[][]
+  board: (Tile | null)[][]
   scoreGain: number
   moved: boolean
 }
@@ -23,6 +23,6 @@ export interface MoveResult {
 export type Direction = 'up' | 'down' | 'left' | 'right'
 
 export interface GameHistory {
-  board: Tile[][]
+  board: (Tile | null)[][]
   score: number
 }
