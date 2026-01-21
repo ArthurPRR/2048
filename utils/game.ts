@@ -1,4 +1,4 @@
-import type { Tile, BoardState, MoveResult, Direction, GameHistory } from '@/types/game'
+import type { Tile, BoardState, MoveResult, Direction } from '@/types/game'
 
 /**
  * Générer un ID unique pour une tuile
@@ -114,7 +114,7 @@ export function merge(line: (Tile | null)[]): [(Tile | null)[], number] {
 /**
  * Effectuer un mouvement dans une direction
  */
-export function move(board: Tile[][], direction: Direction): MoveResult {
+export function move(board: (Tile | null)[][], direction: Direction): MoveResult {
   const newBoard = JSON.parse(JSON.stringify(board))
   let scoreGain = 0
   let moved = false
@@ -140,30 +140,30 @@ export function move(board: Tile[][], direction: Direction): MoveResult {
   } else {
     // up / down
     for (let col = 0; col < newBoard[0].length; col++) {
-      const column = newBoard.map((row: Tile[]) => row[col])
+      let column = newBoard.map((row: (Tile | null)[]) => row[col])
+      const originalColumn = JSON.stringify(column)
+      
+      // For down movement, reverse the column first
+      if (direction === 'down') {
+        column = column.reverse()
+      }
+      
       let compressed = compress(column)
       let [merged, score] = merge(compressed)
       merged = compress(merged)
+      
+      // For down movement, reverse back
+      if (direction === 'down') {
+        merged = merged.reverse()
+      }
 
       for (let row = 0; row < newBoard.length; row++) {
         newBoard[row][col] = merged[row]
       }
 
       scoreGain += score
-      if (JSON.stringify(column) !== JSON.stringify(merged)) {
+      if (originalColumn !== JSON.stringify(merged)) {
         moved = true
-      }
-    }
-    if (direction === 'down') {
-      for (let col = 0; col < newBoard[0].length; col++) {
-        const column = newBoard.map((row: Tile[], index: number) => ({
-          row: index,
-          tile: row[col],
-        }))
-        column.reverse()
-        for (let i = 0; i < column.length; i++) {
-          newBoard[column[i].row][col] = column[i].tile
-        }
       }
     }
   }

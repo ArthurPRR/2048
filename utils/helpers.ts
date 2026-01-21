@@ -1,4 +1,4 @@
-import type { Tile, Direction } from '@/types/game'
+import type { Tile } from '@/types/game'
 
 /**
  * Convertir la board 2D en string pour affichage de debug

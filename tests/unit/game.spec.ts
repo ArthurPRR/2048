@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import type { Tile } from '@/types/game'
 import {
-  generateTileId,
   initBoard,
   getEmptyPositions,
   countNonEmptyTiles,
@@ -247,7 +246,7 @@ describe('Game Core Logic', () => {
   })
 
   describe('move', () => {
-    let board: Tile[][]
+    let board: (Tile | null)[][]
 
     beforeEach(() => {
       board = initBoard(4)
